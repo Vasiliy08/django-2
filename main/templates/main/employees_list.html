@@ -1,0 +1,59 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+
+{% block content %}
+    <h1>Всего сотрудников {{count}}</h1>
+
+
+<section class="table-pagin">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th class="td">Имя</th>
+          <th class="td">Отчество</th>
+          <th class="td">Фамилия</th>
+          <th class="td">ИНН</th>
+          <th class="td">Должность</th>
+        </tr>
+      </thead>
+      <tbody class="tbody">
+        {% for i in all_employees %}
+        <tr>
+          <td class="td"><a href="{{ i.get_absolute_url }}">{{i.name}}</a></td>
+          <td class="td">{{i.middle_name}}</td>
+          <td class="td">{{i.last_name}}</td>
+          <td class="td">{{i.INN}}</td>
+          <td class="td">{{i.category}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+<section class="pagin">
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center btn btn-secondary">
+    <li class="page-item">
+        {% if page_obj.has_previous %}
+      <a class="page-link text-light bg-dark" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+         {% endif %}
+    </li>
+      {% for page in page_obj.paginator.page_range %}
+    <li class="page-item"><a class="page-link text-light bg-dark" href="?page={{page}}">{{page}}</a></li>
+      {% endfor %}
+
+    <li class="page-item">
+        {% if page_obj.has_next %}
+      <a class="page-link text-light bg-dark" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+        {% endif %}
+    </li>
+  </ul>
+</nav>
+</section>
+</section>
+{% endblock %}

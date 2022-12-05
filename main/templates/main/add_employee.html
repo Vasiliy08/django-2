@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block content %}
+    <form action="{% url 'add_employee' %}" method="post">
+        {% csrf_token %}
+        {{form.non_field_errors}}
+        {% for f in form %}
+            {{f.label_tag}}
+            {{f}}
+            {{f.errors}}
+        {% endfor %}
+        <button type="submit">Добавить</button>
+    </form>
+{% endblock %}

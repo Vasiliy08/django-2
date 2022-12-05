@@ -1,0 +1,10 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block content %}
+    <h1>Карточка сотрудника {{card_info}}</h1>
+
+    <div><a href="{% url 'update_employee' employee_detail.slug %}">Редактировать сотрудника</a></div>
+    <div><a href="{% url 'delete_employee' employee_detail.slug %}">Удалить сотрудника</a></div>
+{% endblock %}
