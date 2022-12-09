@@ -11,6 +11,7 @@ class AllEmployees(models.Model):
     date_create = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     date_update = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
     slug = models.SlugField(unique=True, db_index=True, verbose_name="Идентификатор")
+    ruc = models.CharField(max_length=100)
     category = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Должность')
 
     def __str__(self):

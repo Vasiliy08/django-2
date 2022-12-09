@@ -3,7 +3,7 @@ from .models import *
 
 
 class AllEmployeesAdmin(admin.ModelAdmin):
-    list_display = ('name', 'middle_name', 'last_name', 'INN', 'date_create', 'date_update', 'category')
+    list_display = ('name', 'middle_name', 'last_name', 'INN', 'date_create', 'date_update', 'category', 'ruc')
     list_display_links = ('name', 'middle_name', 'last_name')
     prepopulated_fields = {'slug': ('name',)}
 

@@ -61,15 +61,15 @@ class EmployeeUpdateViews(UpdateView):
         context['title'] = f"Обновить сотрудника {context['object']}"
         return context
 
-    def form_valid(self, form):
-        name = form.cleaned_data.get('name')
-        if AllEmployees.objects.filter(name=name).exists():
-            print('Создано')
-            form.add_error('name', ValidationError('Уже создано'))
-            return super().form_invalid(form)
-        else:
-            print("Не создано")
-            return super().form_valid(form)
+    # def form_valid(self, form):
+    #     name = form.cleaned_data.get('name')
+    #     if AllEmployees.objects.filter(name=name).exists():
+    #         print('Создано')
+    #         form.add_error('name', ValidationError('Уже создано'))
+    #         return super().form_invalid(form)
+    #     else:
+    #         print("Не создано")
+    #         return super().form_valid(form)
 
 
 class EmployeeDeleteViews(DeleteView):
@@ -80,4 +80,17 @@ class EmployeeDeleteViews(DeleteView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = f"Удалить сотрудника {context['object']}"
+        return context
+
+
+class ChartsListViews(ListView):
+    model = AllEmployees
+    template_name = 'main/charts.html'
+    context_object_name = 'charts'
+    chart = AddEmployee()
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Графики'
+        context['count'] = len(self.model.objects.all())
+        context['chart'] = self.chart
         return context
