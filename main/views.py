@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -24,6 +25,7 @@ class EmployeeDetailViews(DetailView):
     template_name = 'main/employee_detail.html'
     context_object_name = 'employee_detail'
 
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = f'Сотрудник {context["object"]}'
@@ -42,7 +44,7 @@ class AddEmployeeCreateViews(CreateView):
 
     def form_valid(self, form):
         name = form.cleaned_data.get('name')
-        if AllEmployees.objects.filter(name=name).exists():
+        if AllEmployees.objects.filter(name=name):
             print('Создано')
             form.add_error('name', ValidationError('Уже создано'))
             return super().form_invalid(form)
@@ -84,13 +86,22 @@ class EmployeeDeleteViews(DeleteView):
 
 
 class ChartsListViews(ListView):
+    paginate_by = 5
     model = AllEmployees
     template_name = 'main/charts.html'
     context_object_name = 'charts'
-    chart = AddEmployee()
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Графики'
         context['count'] = len(self.model.objects.all())
-        context['chart'] = self.chart
+        return context
+
+
+class RegisterCreateViews(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'main/register.html'
+    success_url = reverse_lazy('home')
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Регистрация'
         return context
