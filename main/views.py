@@ -1,10 +1,12 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
+from django.template import RequestContext
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import *
 from .forms import *
+
 
 
 class EmployeesListViews(ListView):
@@ -43,7 +45,11 @@ class AddEmployeeCreateViews(CreateView):
         return context
 
     def form_valid(self, form):
+        dct = {}
+        dct['name'] = form.cleaned_data.get('name')
+        dct['middle_name'] = form.cleaned_data.get('middle_name')
         name = form.cleaned_data.get('name')
+        form.save(dct)
         if AllEmployees.objects.filter(name=name):
             print('Создано')
             form.add_error('name', ValidationError('Уже создано'))
@@ -90,11 +96,13 @@ class ChartsListViews(ListView):
     model = AllEmployees
     template_name = 'main/charts.html'
     context_object_name = 'charts'
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Графики'
         context['count'] = len(self.model.objects.all())
         return context
+
 
 
 class RegisterCreateViews(CreateView):
@@ -105,3 +113,6 @@ class RegisterCreateViews(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = f'Регистрация'
         return context
+
+
+

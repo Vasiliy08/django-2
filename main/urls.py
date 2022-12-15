@@ -9,6 +9,6 @@ urlpatterns = [
     path('update_employee/<slug:slug>/', EmployeeUpdateViews.as_view(), name='update_employee'),
     path('delete_employee/<slug:slug>/', EmployeeDeleteViews.as_view(), name='delete_employee'),
     path('charts/', ChartsListViews.as_view(), name='charts'),
-    path('register/', RegisterCreateViews.as_view(), name='register')
+    path('register/', RegisterCreateViews.as_view(), name='register'),
 
 ]
