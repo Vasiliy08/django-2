@@ -45,11 +45,7 @@ class AddEmployeeCreateViews(CreateView):
         return context
 
     def form_valid(self, form):
-        dct = {}
-        dct['name'] = form.cleaned_data.get('name')
-        dct['middle_name'] = form.cleaned_data.get('middle_name')
         name = form.cleaned_data.get('name')
-        form.save(dct)
         if AllEmployees.objects.filter(name=name):
             print('Создано')
             form.add_error('name', ValidationError('Уже создано'))
